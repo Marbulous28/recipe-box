@@ -6,18 +6,8 @@ import java.util.ArrayList;
 
 public class IngredientTest{
 
-  @Before
-  public void setUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/recipe_box_test", null, null);
-  }
-
-  @After
-  public void tearDown() {
-    try(Connection con = DB.sql2o.open()) {
-      String deleteIngredientsQuery = "DELETE FROM ingredients *;";
-      con.createQuery(deleteIngredientsQuery).executeUpdate();
-    }
-  }
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
 
   @Test
   public void Ingredient_instantiatesCorrectly_true(){
