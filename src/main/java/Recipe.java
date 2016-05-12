@@ -122,6 +122,17 @@ public class Recipe{
       con.createQuery(sql)
       .addParameter("id", this.id)
       .executeUpdate();
+
+      String joinDeleteQuery = "DELETE FROM ingredients_recipes WHERE recipe_id = :id";
+      con.createQuery(joinDeleteQuery)
+        .addParameter("id", this.id)
+        .executeUpdate();
+
+      String deleteQuery = "DELETE FROM tags_recipes WHERE recipe_id = :id";
+      con.createQuery(deleteQuery)
+        .addParameter("id", this.id)
+        .executeUpdate();
+
     }
   }
 

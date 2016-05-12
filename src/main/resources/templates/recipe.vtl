@@ -4,6 +4,38 @@
   <div class="col-sm-6">
     <h2>Instructions</h2>
     <p>$recipe.getInstructions()</p>
+
+
+
+
+
+
+
+
+    <form action="/recipe/$recipe.getId()/update">
+      <button type="submit" class="btn btn-warning">Update This Recipe</button>
+    </form>
+
+    #if($confirmUpdateRecipe)
+
+    <form action="/recipe/$recipe.getId()/submitUpdate" method="post">
+      <label for="newName">New Name</label>
+      <input type="text" id="newName" name="newName" class="form-control">
+      <button type="submit" class="btn btn-danger btn-danger btn-warning">Update</button>
+    </form>
+
+    #end
+
+
+
+
+
+
+
+    <form action="/recipe/$recipe.getId()/delete" method="post">
+      <button type="submit" class="btn btn-danger">Delete This Recipe</button>
+    </form>
+
   </div>
   <div class="col-sm-6">
     <h2>Tags</h2>
@@ -61,10 +93,10 @@
 </form>
 
 #end
-
 <ul>
   #foreach ($review in $reviewList)
-    <li><a>$review.getDescription()</a></li>
+    <li>"$review.getDescription()"<br>
+        $review.getUserName() - $review.getStars() Stars<br></li>
   #end
 </ul>
 

@@ -146,5 +146,38 @@ public class App{
       response.redirect("/recipe/" + newRecipe.getId());
       return null;
     });
+
+    post("/recipe/:id/delete", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Recipe newRecipe = Recipe.find(Integer.parseInt(request.params("id")));
+      newRecipe.delete();
+      response.redirect("/recipes");
+      return null;
+    });
+
+    get("/recipe/:id/update", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Recipe newRecipe = Recipe.find(Integer.parseInt(request.params("id")));
+      List<Ingredient> ingredientList = newRecipe.getIngredients();
+      List<Tag> tagList = newRecipe.getTags();
+      List<Tag> allTags = Tag.all();
+      Boolean confirmUpdateRecipe = true;
+      model.put("allTags", allTags);
+      model.put("ingredientList", ingredientList);
+      model.put("tagList", tagList);
+      model.put("recipe", newRecipe);
+      model.put("confirmUpdateRecipe", confirmUpdateRecipe);
+      model.put("template","templates/recipe.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/recipe/:id/submitUpdate", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Recipe newRecipe = Recipe.find(Integer.parseInt(request.params("id")));
+      String newName = request.queryParams("newName");
+      newRecipe.update(newName, newRecipe.getInstructions());
+      response.redirect("/recipe/" + newRecipe.getId());
+      return null;
+    });
   }
 }
