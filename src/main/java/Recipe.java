@@ -24,6 +24,31 @@ public class Recipe{
     return recipe_instructions;
   }
 
+  public List<Review> getReview(){
+    String sql = "SELECT * FROM reviews WHERE recipe_id = :id";
+    try (Connection con = DB.sql2o.open()){
+      return con.createQuery(sql).addParameter("id", this.id).executeAndFetch(Review.class);
+    }
+  }
+
+  public void addTag(int tag_id){
+    String sql = "INSERT INTO tags_recipes (recipe_id, tag_id) VALUES (:recipe_id, :tag_id)";
+    try (Connection con = DB.sql2o.open()){
+      con.createQuery(sql, true)
+      .addParameter("tag_id", tag_id)
+      .addParameter("recipe_id", this.id)
+      .executeUpdate();
+    }
+  }
+
+    public List<Tag> getTags(){
+      String sql = "SELECT tags.* FROM recipes JOIN tags_recipes ON (recipes.id = tags_recipes.recipe_id) JOIN tags ON (tags_recipes.tag_id = tags.id) WHERE recipes.id = :id";
+      try (Connection con = DB.sql2o.open()) {
+        return con.createQuery(sql).addParameter("id", this.id).executeAndFetch(Tag.class);
+      }
+    }
+
+
   public void addIngredients(int ingredient_id){
     String sql = "INSERT INTO ingredients_recipes (recipe_id, ingredient_id) VALUES (:recipe_id, :ingredient_id)";
     try (Connection con = DB.sql2o.open()){

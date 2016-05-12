@@ -1,0 +1,7 @@
+<h1>Recipes:</h1>
+
+<ul>
+#foreach($recipe in $recipes)
+  <li><a href="/recipe/$recipe.getId()">$recipe.getName()</a></li>
+#end
+</ul>

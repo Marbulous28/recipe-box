@@ -1,0 +1,12 @@
+<form action="submitReview" method="post">
+  <div class="form-group">
+    <label for="user-name">Your Name</label>
+    <input type="text" id="user-name" name="user-name" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="review-id">What Recipe Would You Like To Review?</label>
+    <select id="review-id" name="review-id" class="form-control">
+      #foreach($recipe in $recipes)
+        <option value="$recipe.getId()">$recipe.getName()</option>
+      #end
+  </div>
